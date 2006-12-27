@@ -1,0 +1,1096 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:network" xmlns:impl="urn:network" xmlns:intf="urn:network" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:network">
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_xsd_string">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:string[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_xsd_double">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:double[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="PrizmElement">
+    <sequence>
+     <element name="accessMode" type="xsd:int"/>
+     <element name="attributeNames" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="attributeValues" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="elementId" type="xsd:int"/>
+     <element name="elementName" nillable="true" type="xsd:string"/>
+     <element name="elementType" nillable="true" type="xsd:string"/>
+     <element name="elementTypeName" nillable="true" type="xsd:string"/>
+     <element name="managementMode" type="xsd:int"/>
+     <element name="networkId" nillable="true" type="xsd:string"/>
+     <element name="root" type="xsd:boolean"/>
+     <element name="statsNames" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="statsValues" nillable="true" type="impl:ArrayOf_xsd_double"/>
+    </sequence>
+   </complexType>
+   <complexType name="ElementLinkInfo">
+    <sequence>
+     <element name="linkDirection" type="xsd:int"/>
+     <element name="linkType" type="xsd:int"/>
+     <element name="linkedElementID" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfElementLinkInfo">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:ElementLinkInfo[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOfPrizmElement">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:PrizmElement[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ClientDevice">
+    <sequence>
+     <element name="firstSeenTime" type="xsd:long"/>
+     <element name="ipAddress" nillable="true" type="xsd:string"/>
+     <element name="lastSeenTime" type="xsd:long"/>
+     <element name="macAddress" nillable="true" type="xsd:string"/>
+     <element name="source" nillable="true" type="xsd:string"/>
+     <element name="sourceType" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfClientDevice">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:ClientDevice[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="PerformanceData">
+    <sequence>
+     <element name="average" type="xsd:double"/>
+     <element name="max" type="xsd:double"/>
+     <element name="min" type="xsd:double"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="total" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfPerformanceData">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:PerformanceData[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_xsd_int">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:int[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="Network">
+    <sequence>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfNetwork">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:Network[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ConfigurationTemplate">
+    <sequence>
+     <element name="attributeNames" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="attributeValues" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="category" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="typeID" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfConfigurationTemplate">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:ConfigurationTemplate[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="searchClientDeviceByMacRequest">
+
+      <wsdl:part name="macpattern" type="xsd:string"/>
+
+      <wsdl:part name="includePrizmElement" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSupportedConfigurationTypeIDsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="searchClientDeviceByIpRequest">
+
+      <wsdl:part name="ippattern" type="xsd:string"/>
+
+      <wsdl:part name="includePrizmElement" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="activateNetworkElementsRequest">
+
+      <wsdl:part name="elementIDs" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+      <wsdl:part name="actionType" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getLinkTableForElementRequest">
+
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementPerformanceDataRequest">
+
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+      <wsdl:part name="startTime" type="xsd:long"/>
+
+      <wsdl:part name="endTime" type="xsd:long"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="activateNetworkElementsResponse">
+
+      <wsdl:part name="activateNetworkElementsReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementByIdRequest">
+
+      <wsdl:part name="id" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="searchClientDeviceByMacResponse">
+
+      <wsdl:part name="searchClientDeviceByMacReturn" type="impl:ArrayOfClientDevice"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementsResponse">
+
+      <wsdl:part name="getPrizmElementsReturn" type="impl:ArrayOfPrizmElement"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addCustomConfigurationResponse">
+
+      <wsdl:part name="addCustomConfigurationReturn" type="impl:ConfigurationTemplate"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateConfigurationResponse">
+
+      <wsdl:part name="updateConfigurationReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementPerformanceDataResponse">
+
+      <wsdl:part name="getElementPerformanceDataReturn" type="impl:ArrayOfPerformanceData"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteElementResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="addProvisionedElementResponse">
+
+      <wsdl:part name="addProvisionedElementReturn" type="impl:PrizmElement"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteConfigurationRequest">
+
+      <wsdl:part name="iID" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigSetResponse">
+
+      <wsdl:part name="setElementConfigSetReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigResponse">
+
+      <wsdl:part name="setElementConfigReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="suspendNetworkElementsRequest">
+
+      <wsdl:part name="elementIDs" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+      <wsdl:part name="actionType" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="searchClientDeviceByIpResponse">
+
+      <wsdl:part name="searchClientDeviceByIpReturn" type="impl:ArrayOfClientDevice"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNetworksRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigSetRequest">
+
+      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="configName" type="xsd:string"/>
+
+      <wsdl:part name="rebootIfRequired" type="xsd:boolean"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getConfigurationTemplatesResponse">
+
+      <wsdl:part name="getConfigurationTemplatesReturn" type="impl:ArrayOfConfigurationTemplate"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dropRegisteredElementSessionRequest">
+
+      <wsdl:part name="iElementID" type="xsd:int"/>
+
+      <wsdl:part name="macAddress" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteConfigurationResponse">
+
+      <wsdl:part name="deleteConfigurationReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementConfigJobStatusRequest">
+
+      <wsdl:part name="jobId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addTypedConfigurationRequest">
+
+      <wsdl:part name="strName" type="xsd:string"/>
+
+      <wsdl:part name="strCategory" type="xsd:string"/>
+
+      <wsdl:part name="strTypeID" type="xsd:string"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigRequest">
+
+      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="rebootIfRequired" type="xsd:boolean"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNetworksResponse">
+
+      <wsdl:part name="getNetworksReturn" type="impl:ArrayOfNetwork"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementsRequest">
+
+      <wsdl:part name="fieldNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="fieldValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="operators" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementByIdResponse">
+
+      <wsdl:part name="getPrizmElementByIdReturn" type="impl:PrizmElement"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteElementRequest">
+
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+      <wsdl:part name="child2Root" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementSearchFieldsResponse">
+
+      <wsdl:part name="getPrizmElementSearchFieldsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementSearchFieldsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="rebootElementsRequest">
+
+      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dropRegisteredElementSessionResponse">
+
+      <wsdl:part name="dropRegisteredElementSessionReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSupportedConfigurationTypeIDsResponse">
+
+      <wsdl:part name="getSupportedConfigurationTypeIDsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getLinkTableForElementResponse">
+
+      <wsdl:part name="getLinkTableForElementReturn" type="impl:ArrayOfElementLinkInfo"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementConfigJobStatusResponse">
+
+      <wsdl:part name="getElementConfigJobStatusReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateConfigurationRequest">
+
+      <wsdl:part name="id" type="xsd:int"/>
+
+      <wsdl:part name="strNewName" type="xsd:string"/>
+
+      <wsdl:part name="strCategory" type="xsd:string"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="bOkToReboot" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="suspendNetworkElementsResponse">
+
+      <wsdl:part name="suspendNetworkElementsReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="rebootElementsResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="addCustomConfigurationRequest">
+
+      <wsdl:part name="strName" type="xsd:string"/>
+
+      <wsdl:part name="strCategory" type="xsd:string"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addTypedConfigurationResponse">
+
+      <wsdl:part name="addTypedConfigurationReturn" type="impl:ConfigurationTemplate"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getConfigurationTemplatesRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="addProvisionedElementRequest">
+
+      <wsdl:part name="iNetworkID" type="xsd:int"/>
+
+      <wsdl:part name="mac" type="xsd:string"/>
+
+      <wsdl:part name="siteName" type="xsd:string"/>
+
+      <wsdl:part name="siteLocation" type="xsd:string"/>
+
+      <wsdl:part name="siteContact" type="xsd:string"/>
+
+      <wsdl:part name="authKeys" type="xsd:string"/>
+
+      <wsdl:part name="servicePlanName" type="xsd:string"/>
+
+      <wsdl:part name="vlanProfileName" type="xsd:string"/>
+
+      <wsdl:part name="bAddFullManagement" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="NetworkIf">
+
+      <wsdl:operation name="updateConfiguration" parameterOrder="id strNewName strCategory parameterNames parameterValues bOkToReboot">
+
+         <wsdl:input name="updateConfigurationRequest" message="impl:updateConfigurationRequest"/>
+
+         <wsdl:output name="updateConfigurationResponse" message="impl:updateConfigurationResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElementById" parameterOrder="id">
+
+         <wsdl:input name="getPrizmElementByIdRequest" message="impl:getPrizmElementByIdRequest"/>
+
+         <wsdl:output name="getPrizmElementByIdResponse" message="impl:getPrizmElementByIdResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getLinkTableForElement" parameterOrder="elementId">
+
+         <wsdl:input name="getLinkTableForElementRequest" message="impl:getLinkTableForElementRequest"/>
+
+         <wsdl:output name="getLinkTableForElementResponse" message="impl:getLinkTableForElementResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElementSearchFields">
+
+         <wsdl:input name="getPrizmElementSearchFieldsRequest" message="impl:getPrizmElementSearchFieldsRequest"/>
+
+         <wsdl:output name="getPrizmElementSearchFieldsResponse" message="impl:getPrizmElementSearchFieldsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElements" parameterOrder="fieldNames fieldValues operators">
+
+         <wsdl:input name="getPrizmElementsRequest" message="impl:getPrizmElementsRequest"/>
+
+         <wsdl:output name="getPrizmElementsResponse" message="impl:getPrizmElementsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchClientDeviceByIp" parameterOrder="ippattern includePrizmElement">
+
+         <wsdl:input name="searchClientDeviceByIpRequest" message="impl:searchClientDeviceByIpRequest"/>
+
+         <wsdl:output name="searchClientDeviceByIpResponse" message="impl:searchClientDeviceByIpResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchClientDeviceByMac" parameterOrder="macpattern includePrizmElement">
+
+         <wsdl:input name="searchClientDeviceByMacRequest" message="impl:searchClientDeviceByMacRequest"/>
+
+         <wsdl:output name="searchClientDeviceByMacResponse" message="impl:searchClientDeviceByMacResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getElementPerformanceData" parameterOrder="elementId startTime endTime">
+
+         <wsdl:input name="getElementPerformanceDataRequest" message="impl:getElementPerformanceDataRequest"/>
+
+         <wsdl:output name="getElementPerformanceDataResponse" message="impl:getElementPerformanceDataResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElementConfig" parameterOrder="elementIds parameterNames parameterValues rebootIfRequired configMode">
+
+         <wsdl:input name="setElementConfigRequest" message="impl:setElementConfigRequest"/>
+
+         <wsdl:output name="setElementConfigResponse" message="impl:setElementConfigResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getElementConfigJobStatus" parameterOrder="jobId">
+
+         <wsdl:input name="getElementConfigJobStatusRequest" message="impl:getElementConfigJobStatusRequest"/>
+
+         <wsdl:output name="getElementConfigJobStatusResponse" message="impl:getElementConfigJobStatusResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="rebootElements" parameterOrder="elementIds configMode">
+
+         <wsdl:input name="rebootElementsRequest" message="impl:rebootElementsRequest"/>
+
+         <wsdl:output name="rebootElementsResponse" message="impl:rebootElementsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="activateNetworkElements" parameterOrder="elementIDs configMode actionType">
+
+         <wsdl:input name="activateNetworkElementsRequest" message="impl:activateNetworkElementsRequest"/>
+
+         <wsdl:output name="activateNetworkElementsResponse" message="impl:activateNetworkElementsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="suspendNetworkElements" parameterOrder="elementIDs configMode actionType">
+
+         <wsdl:input name="suspendNetworkElementsRequest" message="impl:suspendNetworkElementsRequest"/>
+
+         <wsdl:output name="suspendNetworkElementsResponse" message="impl:suspendNetworkElementsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElementConfigSet" parameterOrder="elementIds configName rebootIfRequired configMode">
+
+         <wsdl:input name="setElementConfigSetRequest" message="impl:setElementConfigSetRequest"/>
+
+         <wsdl:output name="setElementConfigSetResponse" message="impl:setElementConfigSetResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dropRegisteredElementSession" parameterOrder="iElementID macAddress">
+
+         <wsdl:input name="dropRegisteredElementSessionRequest" message="impl:dropRegisteredElementSessionRequest"/>
+
+         <wsdl:output name="dropRegisteredElementSessionResponse" message="impl:dropRegisteredElementSessionResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNetworks">
+
+         <wsdl:input name="getNetworksRequest" message="impl:getNetworksRequest"/>
+
+         <wsdl:output name="getNetworksResponse" message="impl:getNetworksResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addProvisionedElement" parameterOrder="iNetworkID mac siteName siteLocation siteContact authKeys servicePlanName vlanProfileName bAddFullManagement">
+
+         <wsdl:input name="addProvisionedElementRequest" message="impl:addProvisionedElementRequest"/>
+
+         <wsdl:output name="addProvisionedElementResponse" message="impl:addProvisionedElementResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteElement" parameterOrder="elementId child2Root">
+
+         <wsdl:input name="deleteElementRequest" message="impl:deleteElementRequest"/>
+
+         <wsdl:output name="deleteElementResponse" message="impl:deleteElementResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSupportedConfigurationTypeIDs">
+
+         <wsdl:input name="getSupportedConfigurationTypeIDsRequest" message="impl:getSupportedConfigurationTypeIDsRequest"/>
+
+         <wsdl:output name="getSupportedConfigurationTypeIDsResponse" message="impl:getSupportedConfigurationTypeIDsResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getConfigurationTemplates">
+
+         <wsdl:input name="getConfigurationTemplatesRequest" message="impl:getConfigurationTemplatesRequest"/>
+
+         <wsdl:output name="getConfigurationTemplatesResponse" message="impl:getConfigurationTemplatesResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addTypedConfiguration" parameterOrder="strName strCategory strTypeID parameterNames parameterValues">
+
+         <wsdl:input name="addTypedConfigurationRequest" message="impl:addTypedConfigurationRequest"/>
+
+         <wsdl:output name="addTypedConfigurationResponse" message="impl:addTypedConfigurationResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addCustomConfiguration" parameterOrder="strName strCategory parameterNames parameterValues">
+
+         <wsdl:input name="addCustomConfigurationRequest" message="impl:addCustomConfigurationRequest"/>
+
+         <wsdl:output name="addCustomConfigurationResponse" message="impl:addCustomConfigurationResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteConfiguration" parameterOrder="iID">
+
+         <wsdl:input name="deleteConfigurationRequest" message="impl:deleteConfigurationRequest"/>
+
+         <wsdl:output name="deleteConfigurationResponse" message="impl:deleteConfigurationResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="NetworkIfServiceSoapBinding" type="impl:NetworkIf">
+
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="updateConfiguration">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateConfigurationRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateConfigurationResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElementById">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPrizmElementByIdRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPrizmElementByIdResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getLinkTableForElement">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getLinkTableForElementRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getLinkTableForElementResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElementSearchFields">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPrizmElementSearchFieldsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPrizmElementSearchFieldsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElements">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPrizmElementsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPrizmElementsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchClientDeviceByIp">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="searchClientDeviceByIpRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="searchClientDeviceByIpResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="searchClientDeviceByMac">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="searchClientDeviceByMacRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="searchClientDeviceByMacResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getElementPerformanceData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getElementPerformanceDataRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getElementPerformanceDataResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElementConfig">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setElementConfigRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setElementConfigResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getElementConfigJobStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getElementConfigJobStatusRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getElementConfigJobStatusResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="rebootElements">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="rebootElementsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="rebootElementsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="activateNetworkElements">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="activateNetworkElementsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="activateNetworkElementsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="suspendNetworkElements">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="suspendNetworkElementsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="suspendNetworkElementsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElementConfigSet">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setElementConfigSetRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setElementConfigSetResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dropRegisteredElementSession">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="dropRegisteredElementSessionRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="dropRegisteredElementSessionResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNetworks">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNetworksRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNetworksResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addProvisionedElement">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addProvisionedElementRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addProvisionedElementResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteElement">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteElementRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteElementResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSupportedConfigurationTypeIDs">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getSupportedConfigurationTypeIDsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getSupportedConfigurationTypeIDsResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getConfigurationTemplates">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getConfigurationTemplatesRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getConfigurationTemplatesResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addTypedConfiguration">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addTypedConfigurationRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addTypedConfigurationResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addCustomConfiguration">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addCustomConfigurationRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addCustomConfigurationResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteConfiguration">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteConfigurationRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteConfigurationResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="NetworkIfService">
+
+      <wsdl:port name="NetworkIfService" binding="impl:NetworkIfServiceSoapBinding">
+
+         <wsdlsoap:address location="http://localhost:80/prizm/nbi/NetworkIfService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
