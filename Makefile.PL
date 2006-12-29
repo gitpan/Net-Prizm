@@ -6,5 +6,5 @@ WriteMakefile(
     'ABSTRACT_FROM' => 'lib/Net/Prizm.pm',
     'AUTHOR'        => 'Jeff Finucane <jeff-net-prizm@weasellips.com>',
     'VERSION_FROM'  => 'lib/Net/Prizm.pm', # finds $VERSION
-    'PREREQ_PM'     => { SOAP::Lite => 0.60 },
+    'PREREQ_PM'     => { SOAP::Lite => 0.69 },
 );

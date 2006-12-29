@@ -1,0 +1,8 @@
+
+Revision history for Perl extension Net::Prizm
+
+0.02 Fri Dec  29 11:52:40 EST 2006
+       -updated to use SOAP::Lite 0.69
+
+0.01 Tue Dec  26 23:35:00 EST 2006
+       -original version; created by jeff

@@ -4,7 +4,7 @@ use strict;
 use vars qw($DEBUG $VERSION @uris %services $AUTOLOAD %schemas);
 use SOAP::Lite;
 
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 $DEBUG = 0;
 
@@ -97,7 +97,7 @@ sub import {
   $me = $1;
   for (@uris){
     $schemas{$_} = SOAP::Schema
-      ->schema("file:$me/wsdls/$_.wsdl")
+      ->schema_url("file:$me/wsdls/$_.wsdl")
       ->parse->services->{$_};
   }
 
@@ -141,7 +141,6 @@ sub AUTOLOAD {
   my $soap = SOAP::Lite
     -> autotype(0)
     -> readable(1)
-    -> encodingspace('soapenc')
     -> uri($self->{namespace})
     -> proxy($self->{url});
   
