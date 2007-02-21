@@ -1,6 +1,10 @@
 
 Revision history for Perl extension Net::Prizm
 
+0.03 Tue Feb  20 21:41:46 EST 2007
+       -corrected bad encoding (failure to use html entities when required)
+        of customer_info
+
 0.02 Fri Dec  29 11:52:40 EST 2006
        -updated to use SOAP::Lite 0.69
 

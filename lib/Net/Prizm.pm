@@ -4,7 +4,7 @@ use strict;
 use vars qw($DEBUG $VERSION @uris %services $AUTOLOAD %schemas);
 use SOAP::Lite;
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 $DEBUG = 0;
 
@@ -171,20 +171,20 @@ sub AUTOLOAD {
     my ($self, $value, $name, $type, $attr) = @_;
 
     my $schema = {
-           'importId'         => 'xsd:string',
-           'customerId'       => 'xsd:int',
-           'customerName'     => 'xsd:string',
-           'customerType'     => 'xsd:string',
-           'address1'         => 'xsd:string',
-           'address2'         => 'xsd:string',
-           'city'             => 'xsd:string',
-           'state'            => 'xsd:string',
-           'zipCode'          => 'xsd:string',
-           'workPhone'        => 'xsd:string',
-           'homePhone'        => 'xsd:string',
-           'mobilePhone'      => 'xsd:string',
-           'pager'            => 'xsd:string',
-           'email'            => 'xsd:string',
+           'importId'         => 'string',
+           'customerId'       => 'int',
+           'customerName'     => 'string',
+           'customerType'     => 'string',
+           'address1'         => 'string',
+           'address2'         => 'string',
+           'city'             => 'string',
+           'state'            => 'string',
+           'zipCode'          => 'string',
+           'workPhone'        => 'string',
+           'homePhone'        => 'string',
+           'mobilePhone'      => 'string',
+           'pager'            => 'string',
+           'email'            => 'string',
            'extraFieldNames'  => 'impl:ArrayOf_xsd_string',
            'extraFieldValues' => 'impl:ArrayOf_xsd_string',
            'elementIds'       => 'impl:ArrayOf_xsd_int',
@@ -193,10 +193,13 @@ sub AUTOLOAD {
     my (@result) = ();
     foreach my $key (keys %$value){
       my $to_encode = $value->{$key};
-      push @result, ($self->encode_object($to_encode,$key,$schema->{$key}));
+      push @result, SOAP::Data->name($key => $to_encode)->type($schema->{$key});
     }
 
-    return [$name, {'xsi:type' => 'impl:CustomerInfo', %$attr}, \@result];
+    return $self->encode_object(\SOAP::Data->value(
+      SOAP::Data->name($name => @result)), $name, 
+                                 $type,
+                                 {'xsi:type' => 'impl:CustomerInfo', %$attr});
   };
 
   my $param = 0;
