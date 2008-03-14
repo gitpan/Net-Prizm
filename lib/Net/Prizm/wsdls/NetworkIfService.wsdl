@@ -36,6 +36,20 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element name="statsValues" nillable="true" type="impl:ArrayOf_xsd_double"/>
     </sequence>
    </complexType>
+   <complexType name="ArrayOf_xsd_int">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:int[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOfPrizmElement">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:PrizmElement[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
    <complexType name="ElementLinkInfo">
     <sequence>
      <element name="linkDirection" type="xsd:int"/>
@@ -47,13 +61,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
     <complexContent>
      <restriction base="soapenc:Array">
       <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:ElementLinkInfo[]"/>
-     </restriction>
-    </complexContent>
-   </complexType>
-   <complexType name="ArrayOfPrizmElement">
-    <complexContent>
-     <restriction base="soapenc:Array">
-      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:PrizmElement[]"/>
      </restriction>
     </complexContent>
    </complexType>
@@ -90,24 +97,16 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </restriction>
     </complexContent>
    </complexType>
-   <complexType name="ArrayOf_xsd_int">
-    <complexContent>
-     <restriction base="soapenc:Array">
-      <attribute ref="soapenc:arrayType" wsdl:arrayType="xsd:int[]"/>
-     </restriction>
-    </complexContent>
-   </complexType>
-   <complexType name="Network">
+   <complexType name="PerformanceValue">
     <sequence>
-     <element name="description" nillable="true" type="xsd:string"/>
-     <element name="id" type="xsd:int"/>
-     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="timeStamp" type="xsd:long"/>
+     <element name="value" type="xsd:double"/>
     </sequence>
    </complexType>
-   <complexType name="ArrayOfNetwork">
+   <complexType name="ArrayOfPerformanceValue">
     <complexContent>
      <restriction base="soapenc:Array">
-      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:Network[]"/>
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:PerformanceValue[]"/>
      </restriction>
     </complexContent>
    </complexType>
@@ -128,6 +127,52 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </restriction>
     </complexContent>
    </complexType>
+   <complexType name="Network">
+    <sequence>
+     <element name="autoDiscoverSlave" type="xsd:boolean"/>
+     <element name="autoDiscoverUsingProxy" type="xsd:boolean"/>
+     <element name="category" nillable="true" type="xsd:string"/>
+     <element name="communityList" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="numberOfSubnet" type="xsd:int"/>
+     <element name="passwordList" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="rediscoverUnManagedElement" type="xsd:boolean"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfNetwork">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:Network[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="SubNet">
+    <sequence>
+     <element name="autoAssignIPEnabled" type="xsd:boolean"/>
+     <element name="autoIPGateway" nillable="true" type="xsd:string"/>
+     <element name="autoIPNetworkMask" nillable="true" type="xsd:string"/>
+     <element name="autoIPRange" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="defaultSnmpCommunity" nillable="true" type="xsd:string"/>
+     <element name="enforceConfiguration" type="xsd:boolean"/>
+     <element name="managementMode" nillable="true" type="xsd:string"/>
+     <element name="networkID" type="xsd:int"/>
+     <element name="serverRouteIP" nillable="true" type="xsd:string"/>
+     <element name="snmpAccess" nillable="true" type="impl:ArrayOf_xsd_string"/>
+     <element name="snmpAccessCidrBits" nillable="true" type="impl:ArrayOf_xsd_int"/>
+     <element name="subnetNumber" type="xsd:int"/>
+     <element name="trapManagementEnabled" type="xsd:boolean"/>
+     <element name="trapManagementIPs" nillable="true" type="impl:ArrayOf_xsd_string"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOfSubNet">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="impl:SubNet[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
   </schema>
  </wsdl:types>
 
@@ -139,7 +184,15 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getSupportedConfigurationTypeIDsRequest">
+   <wsdl:message name="getElementPerformanceFieldValuesRequest">
+
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+      <wsdl:part name="fieldName" type="xsd:string"/>
+
+      <wsdl:part name="startTime" type="xsd:long"/>
+
+      <wsdl:part name="endTime" type="xsd:long"/>
 
    </wsdl:message>
 
@@ -161,12 +214,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getLinkTableForElementRequest">
-
-      <wsdl:part name="elementId" type="xsd:int"/>
-
-   </wsdl:message>
-
    <wsdl:message name="getElementPerformanceDataRequest">
 
       <wsdl:part name="elementId" type="xsd:int"/>
@@ -177,9 +224,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="activateNetworkElementsResponse">
+   <wsdl:message name="searchClientDeviceByMacResponse">
 
-      <wsdl:part name="activateNetworkElementsReturn" type="xsd:int"/>
+      <wsdl:part name="searchClientDeviceByMacReturn" type="impl:ArrayOfClientDevice"/>
 
    </wsdl:message>
 
@@ -189,33 +236,37 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="searchClientDeviceByMacResponse">
-
-      <wsdl:part name="searchClientDeviceByMacReturn" type="impl:ArrayOfClientDevice"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="getPrizmElementsResponse">
-
-      <wsdl:part name="getPrizmElementsReturn" type="impl:ArrayOfPrizmElement"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="addCustomConfigurationResponse">
-
-      <wsdl:part name="addCustomConfigurationReturn" type="impl:ConfigurationTemplate"/>
-
-   </wsdl:message>
-
    <wsdl:message name="updateConfigurationResponse">
 
       <wsdl:part name="updateConfigurationReturn" type="xsd:int"/>
 
    </wsdl:message>
 
-   <wsdl:message name="getElementPerformanceDataResponse">
+   <wsdl:message name="getElementPerformanceValuesDelimitedRequest">
 
-      <wsdl:part name="getElementPerformanceDataReturn" type="impl:ArrayOfPerformanceData"/>
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+      <wsdl:part name="startTime" type="xsd:long"/>
+
+      <wsdl:part name="endTime" type="xsd:long"/>
+
+      <wsdl:part name="delimiter" type="xsd:string"/>
+
+      <wsdl:part name="newLine" type="xsd:string"/>
+
+      <wsdl:part name="openQuotes" type="xsd:string"/>
+
+      <wsdl:part name="closeQuotes" type="xsd:string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="moveNetworkElementRequest">
+
+      <wsdl:part name="elementID" type="xsd:int"/>
+
+      <wsdl:part name="toParentElementID" type="xsd:int"/>
+
+      <wsdl:part name="toNetworkID" type="xsd:int"/>
 
    </wsdl:message>
 
@@ -229,21 +280,21 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="updateConfigurationExtResponse">
+
+      <wsdl:part name="updateConfigurationExtReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
    <wsdl:message name="deleteConfigurationRequest">
 
       <wsdl:part name="iID" type="xsd:int"/>
 
    </wsdl:message>
 
-   <wsdl:message name="setElementConfigSetResponse">
+   <wsdl:message name="getSubnetsForNetworkRequest">
 
-      <wsdl:part name="setElementConfigSetReturn" type="xsd:int"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="setElementConfigResponse">
-
-      <wsdl:part name="setElementConfigReturn" type="xsd:int"/>
+      <wsdl:part name="networkID" type="xsd:int"/>
 
    </wsdl:message>
 
@@ -257,9 +308,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="searchClientDeviceByIpResponse">
+   <wsdl:message name="createNetworkResponse">
 
-      <wsdl:part name="searchClientDeviceByIpReturn" type="impl:ArrayOfClientDevice"/>
+      <wsdl:part name="createNetworkReturn" type="impl:Network"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addSubnetToNetworkResponse">
 
    </wsdl:message>
 
@@ -267,21 +322,41 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="setElementConfigSetRequest">
+   <wsdl:message name="getElementPerformanceValuesDelimitedResponse">
 
-      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
-
-      <wsdl:part name="configName" type="xsd:string"/>
-
-      <wsdl:part name="rebootIfRequired" type="xsd:boolean"/>
-
-      <wsdl:part name="configMode" type="xsd:int"/>
+      <wsdl:part name="getElementPerformanceValuesDelimitedReturn" type="impl:ArrayOf_xsd_string"/>
 
    </wsdl:message>
 
    <wsdl:message name="getConfigurationTemplatesResponse">
 
       <wsdl:part name="getConfigurationTemplatesReturn" type="impl:ArrayOfConfigurationTemplate"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementPerformanceFieldValuesResponse">
+
+      <wsdl:part name="getElementPerformanceFieldValuesReturn" type="impl:ArrayOfPerformanceValue"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigExtResponse">
+
+      <wsdl:part name="setElementConfigExtReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="createNetworkRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="moveNetworkElementResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementsByIdsRequest">
+
+      <wsdl:part name="ids" type="impl:ArrayOf_xsd_int"/>
 
    </wsdl:message>
 
@@ -299,9 +374,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getElementConfigJobStatusRequest">
-
-      <wsdl:part name="jobId" type="xsd:int"/>
+   <wsdl:message name="updateNetworkResponse">
 
    </wsdl:message>
 
@@ -333,39 +406,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getNetworksResponse">
-
-      <wsdl:part name="getNetworksReturn" type="impl:ArrayOfNetwork"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="getPrizmElementsRequest">
-
-      <wsdl:part name="fieldNames" type="impl:ArrayOf_xsd_string"/>
-
-      <wsdl:part name="fieldValues" type="impl:ArrayOf_xsd_string"/>
-
-      <wsdl:part name="operators" type="impl:ArrayOf_xsd_string"/>
-
-   </wsdl:message>
-
    <wsdl:message name="getPrizmElementByIdResponse">
 
       <wsdl:part name="getPrizmElementByIdReturn" type="impl:PrizmElement"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="deleteElementRequest">
-
-      <wsdl:part name="elementId" type="xsd:int"/>
-
-      <wsdl:part name="child2Root" type="xsd:boolean"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="getPrizmElementSearchFieldsResponse">
-
-      <wsdl:part name="getPrizmElementSearchFieldsReturn" type="impl:ArrayOf_xsd_string"/>
 
    </wsdl:message>
 
@@ -381,18 +424,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="dropRegisteredElementSessionResponse">
-
-      <wsdl:part name="dropRegisteredElementSessionReturn" type="xsd:int"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="getSupportedConfigurationTypeIDsResponse">
-
-      <wsdl:part name="getSupportedConfigurationTypeIDsReturn" type="impl:ArrayOf_xsd_string"/>
-
-   </wsdl:message>
-
    <wsdl:message name="getLinkTableForElementResponse">
 
       <wsdl:part name="getLinkTableForElementReturn" type="impl:ArrayOfElementLinkInfo"/>
@@ -405,25 +436,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="updateConfigurationRequest">
+   <wsdl:message name="setElementConfigSetExtRequest">
 
-      <wsdl:part name="id" type="xsd:int"/>
+      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
 
-      <wsdl:part name="strNewName" type="xsd:string"/>
+      <wsdl:part name="configName" type="xsd:string"/>
 
-      <wsdl:part name="strCategory" type="xsd:string"/>
+      <wsdl:part name="rebootIfRequired" type="xsd:boolean"/>
 
-      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+      <wsdl:part name="saveConfHistory" type="xsd:boolean"/>
 
-      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
-
-      <wsdl:part name="bOkToReboot" type="xsd:boolean"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="suspendNetworkElementsResponse">
-
-      <wsdl:part name="suspendNetworkElementsReturn" type="xsd:int"/>
+      <wsdl:part name="configMode" type="xsd:int"/>
 
    </wsdl:message>
 
@@ -431,25 +454,15 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="addCustomConfigurationRequest">
+   <wsdl:message name="getSubnetsForNetworkResponse">
 
-      <wsdl:part name="strName" type="xsd:string"/>
-
-      <wsdl:part name="strCategory" type="xsd:string"/>
-
-      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
-
-      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+      <wsdl:part name="getSubnetsForNetworkReturn" type="impl:ArrayOfSubNet"/>
 
    </wsdl:message>
 
    <wsdl:message name="addTypedConfigurationResponse">
 
       <wsdl:part name="addTypedConfigurationReturn" type="impl:ConfigurationTemplate"/>
-
-   </wsdl:message>
-
-   <wsdl:message name="getConfigurationTemplatesRequest">
 
    </wsdl:message>
 
@@ -475,6 +488,262 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
+   <wsdl:message name="getRootElementsForNetworkRequest">
+
+      <wsdl:part name="networkID" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSupportedConfigurationTypeIDsRequest">
+
+   </wsdl:message>
+
+   <wsdl:message name="getLinkTableForElementRequest">
+
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateManagementIPForMACRequest">
+
+      <wsdl:part name="macs" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="ips" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="activateNetworkElementsResponse">
+
+      <wsdl:part name="activateNetworkElementsReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementsResponse">
+
+      <wsdl:part name="getPrizmElementsReturn" type="impl:ArrayOfPrizmElement"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteNetworkRequest">
+
+      <wsdl:part name="id" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addCustomConfigurationResponse">
+
+      <wsdl:part name="addCustomConfigurationReturn" type="impl:ConfigurationTemplate"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementPerformanceDataResponse">
+
+      <wsdl:part name="getElementPerformanceDataReturn" type="impl:ArrayOfPerformanceData"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigResponse">
+
+      <wsdl:part name="setElementConfigReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigSetResponse">
+
+      <wsdl:part name="setElementConfigSetReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateManagementIPForMACResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteNetworkResponse">
+
+   </wsdl:message>
+
+   <wsdl:message name="searchClientDeviceByIpResponse">
+
+      <wsdl:part name="searchClientDeviceByIpReturn" type="impl:ArrayOfClientDevice"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigSetRequest">
+
+      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="configName" type="xsd:string"/>
+
+      <wsdl:part name="rebootIfRequired" type="xsd:boolean"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNetworkByIDResponse">
+
+      <wsdl:part name="getNetworkByIDReturn" type="impl:Network"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getRootElementsForNetworkResponse">
+
+      <wsdl:part name="getRootElementsForNetworkReturn" type="impl:ArrayOfPrizmElement"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigExtRequest">
+
+      <wsdl:part name="elementIds" type="impl:ArrayOf_xsd_int"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="rebootIfRequired" type="xsd:boolean"/>
+
+      <wsdl:part name="saveConfHistory" type="xsd:boolean"/>
+
+      <wsdl:part name="configMode" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="setElementConfigSetExtResponse">
+
+      <wsdl:part name="setElementConfigSetExtReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateNetworkRequest">
+
+      <wsdl:part name="net" type="impl:Network"/>
+
+      <wsdl:part name="subnets" type="impl:ArrayOfSubNet"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getElementConfigJobStatusRequest">
+
+      <wsdl:part name="jobId" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNetworksResponse">
+
+      <wsdl:part name="getNetworksReturn" type="impl:ArrayOfNetwork"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementsRequest">
+
+      <wsdl:part name="fieldNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="fieldValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="operators" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementsByIdsResponse">
+
+      <wsdl:part name="getPrizmElementsByIdsReturn" type="impl:ArrayOfPrizmElement"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteElementRequest">
+
+      <wsdl:part name="elementId" type="xsd:int"/>
+
+      <wsdl:part name="child2Root" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getPrizmElementSearchFieldsResponse">
+
+      <wsdl:part name="getPrizmElementSearchFieldsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dropRegisteredElementSessionResponse">
+
+      <wsdl:part name="dropRegisteredElementSessionReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSupportedConfigurationTypeIDsResponse">
+
+      <wsdl:part name="getSupportedConfigurationTypeIDsReturn" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateConfigurationRequest">
+
+      <wsdl:part name="id" type="xsd:int"/>
+
+      <wsdl:part name="strNewName" type="xsd:string"/>
+
+      <wsdl:part name="strCategory" type="xsd:string"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="bOkToReboot" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="suspendNetworkElementsResponse">
+
+      <wsdl:part name="suspendNetworkElementsReturn" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getNetworkByIDRequest">
+
+      <wsdl:part name="id" type="xsd:int"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addSubnetToNetworkRequest">
+
+      <wsdl:part name="subnet" type="impl:SubNet"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateConfigurationExtRequest">
+
+      <wsdl:part name="id" type="xsd:int"/>
+
+      <wsdl:part name="strNewName" type="xsd:string"/>
+
+      <wsdl:part name="strCategory" type="xsd:string"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="bOkToReboot" type="xsd:boolean"/>
+
+      <wsdl:part name="bSaveConfHistory" type="xsd:boolean"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="addCustomConfigurationRequest">
+
+      <wsdl:part name="strName" type="xsd:string"/>
+
+      <wsdl:part name="strCategory" type="xsd:string"/>
+
+      <wsdl:part name="parameterNames" type="impl:ArrayOf_xsd_string"/>
+
+      <wsdl:part name="parameterValues" type="impl:ArrayOf_xsd_string"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getConfigurationTemplatesRequest">
+
+   </wsdl:message>
+
    <wsdl:portType name="NetworkIf">
 
       <wsdl:operation name="updateConfiguration" parameterOrder="id strNewName strCategory parameterNames parameterValues bOkToReboot">
@@ -490,6 +759,14 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          <wsdl:input name="getPrizmElementByIdRequest" message="impl:getPrizmElementByIdRequest"/>
 
          <wsdl:output name="getPrizmElementByIdResponse" message="impl:getPrizmElementByIdResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElementsByIds" parameterOrder="ids">
+
+         <wsdl:input name="getPrizmElementsByIdsRequest" message="impl:getPrizmElementsByIdsRequest"/>
+
+         <wsdl:output name="getPrizmElementsByIdsResponse" message="impl:getPrizmElementsByIdsResponse"/>
 
       </wsdl:operation>
 
@@ -517,6 +794,22 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getRootElementsForNetwork" parameterOrder="networkID">
+
+         <wsdl:input name="getRootElementsForNetworkRequest" message="impl:getRootElementsForNetworkRequest"/>
+
+         <wsdl:output name="getRootElementsForNetworkResponse" message="impl:getRootElementsForNetworkResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="moveNetworkElement" parameterOrder="elementID toParentElementID toNetworkID">
+
+         <wsdl:input name="moveNetworkElementRequest" message="impl:moveNetworkElementRequest"/>
+
+         <wsdl:output name="moveNetworkElementResponse" message="impl:moveNetworkElementResponse"/>
+
+      </wsdl:operation>
+
       <wsdl:operation name="searchClientDeviceByIp" parameterOrder="ippattern includePrizmElement">
 
          <wsdl:input name="searchClientDeviceByIpRequest" message="impl:searchClientDeviceByIpRequest"/>
@@ -541,11 +834,35 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getElementPerformanceFieldValues" parameterOrder="elementId fieldName startTime endTime">
+
+         <wsdl:input name="getElementPerformanceFieldValuesRequest" message="impl:getElementPerformanceFieldValuesRequest"/>
+
+         <wsdl:output name="getElementPerformanceFieldValuesResponse" message="impl:getElementPerformanceFieldValuesResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getElementPerformanceValuesDelimited" parameterOrder="elementId startTime endTime delimiter newLine openQuotes closeQuotes">
+
+         <wsdl:input name="getElementPerformanceValuesDelimitedRequest" message="impl:getElementPerformanceValuesDelimitedRequest"/>
+
+         <wsdl:output name="getElementPerformanceValuesDelimitedResponse" message="impl:getElementPerformanceValuesDelimitedResponse"/>
+
+      </wsdl:operation>
+
       <wsdl:operation name="setElementConfig" parameterOrder="elementIds parameterNames parameterValues rebootIfRequired configMode">
 
          <wsdl:input name="setElementConfigRequest" message="impl:setElementConfigRequest"/>
 
          <wsdl:output name="setElementConfigResponse" message="impl:setElementConfigResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElementConfigExt" parameterOrder="elementIds parameterNames parameterValues rebootIfRequired saveConfHistory configMode">
+
+         <wsdl:input name="setElementConfigExtRequest" message="impl:setElementConfigExtRequest"/>
+
+         <wsdl:output name="setElementConfigExtResponse" message="impl:setElementConfigExtResponse"/>
 
       </wsdl:operation>
 
@@ -589,19 +906,19 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="setElementConfigSetExt" parameterOrder="elementIds configName rebootIfRequired saveConfHistory configMode">
+
+         <wsdl:input name="setElementConfigSetExtRequest" message="impl:setElementConfigSetExtRequest"/>
+
+         <wsdl:output name="setElementConfigSetExtResponse" message="impl:setElementConfigSetExtResponse"/>
+
+      </wsdl:operation>
+
       <wsdl:operation name="dropRegisteredElementSession" parameterOrder="iElementID macAddress">
 
          <wsdl:input name="dropRegisteredElementSessionRequest" message="impl:dropRegisteredElementSessionRequest"/>
 
          <wsdl:output name="dropRegisteredElementSessionResponse" message="impl:dropRegisteredElementSessionResponse"/>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getNetworks">
-
-         <wsdl:input name="getNetworksRequest" message="impl:getNetworksRequest"/>
-
-         <wsdl:output name="getNetworksResponse" message="impl:getNetworksResponse"/>
 
       </wsdl:operation>
 
@@ -653,11 +970,83 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="updateConfigurationExt" parameterOrder="id strNewName strCategory parameterNames parameterValues bOkToReboot bSaveConfHistory">
+
+         <wsdl:input name="updateConfigurationExtRequest" message="impl:updateConfigurationExtRequest"/>
+
+         <wsdl:output name="updateConfigurationExtResponse" message="impl:updateConfigurationExtResponse"/>
+
+      </wsdl:operation>
+
       <wsdl:operation name="deleteConfiguration" parameterOrder="iID">
 
          <wsdl:input name="deleteConfigurationRequest" message="impl:deleteConfigurationRequest"/>
 
          <wsdl:output name="deleteConfigurationResponse" message="impl:deleteConfigurationResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateManagementIPForMAC" parameterOrder="macs ips">
+
+         <wsdl:input name="updateManagementIPForMACRequest" message="impl:updateManagementIPForMACRequest"/>
+
+         <wsdl:output name="updateManagementIPForMACResponse" message="impl:updateManagementIPForMACResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNetworks">
+
+         <wsdl:input name="getNetworksRequest" message="impl:getNetworksRequest"/>
+
+         <wsdl:output name="getNetworksResponse" message="impl:getNetworksResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNetworkByID" parameterOrder="id">
+
+         <wsdl:input name="getNetworkByIDRequest" message="impl:getNetworkByIDRequest"/>
+
+         <wsdl:output name="getNetworkByIDResponse" message="impl:getNetworkByIDResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createNetwork">
+
+         <wsdl:input name="createNetworkRequest" message="impl:createNetworkRequest"/>
+
+         <wsdl:output name="createNetworkResponse" message="impl:createNetworkResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateNetwork" parameterOrder="net subnets">
+
+         <wsdl:input name="updateNetworkRequest" message="impl:updateNetworkRequest"/>
+
+         <wsdl:output name="updateNetworkResponse" message="impl:updateNetworkResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteNetwork" parameterOrder="id">
+
+         <wsdl:input name="deleteNetworkRequest" message="impl:deleteNetworkRequest"/>
+
+         <wsdl:output name="deleteNetworkResponse" message="impl:deleteNetworkResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSubnetsForNetwork" parameterOrder="networkID">
+
+         <wsdl:input name="getSubnetsForNetworkRequest" message="impl:getSubnetsForNetworkRequest"/>
+
+         <wsdl:output name="getSubnetsForNetworkResponse" message="impl:getSubnetsForNetworkResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addSubnetToNetwork" parameterOrder="subnet">
+
+         <wsdl:input name="addSubnetToNetworkRequest" message="impl:addSubnetToNetworkRequest"/>
+
+         <wsdl:output name="addSubnetToNetworkResponse" message="impl:addSubnetToNetworkResponse"/>
 
       </wsdl:operation>
 
@@ -696,6 +1085,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getPrizmElementByIdResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getPrizmElementsByIds">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPrizmElementsByIdsRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPrizmElementsByIdsResponse">
 
             <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
 
@@ -757,6 +1164,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getRootElementsForNetwork">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getRootElementsForNetworkRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getRootElementsForNetworkResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="moveNetworkElement">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="moveNetworkElementRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="moveNetworkElementResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="searchClientDeviceByIp">
 
          <wsdlsoap:operation soapAction=""/>
@@ -811,6 +1254,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getElementPerformanceFieldValues">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getElementPerformanceFieldValuesRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getElementPerformanceFieldValuesResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getElementPerformanceValuesDelimited">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getElementPerformanceValuesDelimitedRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getElementPerformanceValuesDelimitedResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="setElementConfig">
 
          <wsdlsoap:operation soapAction=""/>
@@ -822,6 +1301,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="setElementConfigResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="setElementConfigExt">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setElementConfigExtRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setElementConfigExtResponse">
 
             <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
 
@@ -919,6 +1416,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="setElementConfigSetExt">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setElementConfigSetExtRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="setElementConfigSetExtResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="dropRegisteredElementSession">
 
          <wsdlsoap:operation soapAction=""/>
@@ -930,24 +1445,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="dropRegisteredElementSessionResponse">
-
-            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getNetworks">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getNetworksRequest">
-
-            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getNetworksResponse">
 
             <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
 
@@ -1063,6 +1560,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="updateConfigurationExt">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateConfigurationExtRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateConfigurationExtResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="deleteConfiguration">
 
          <wsdlsoap:operation soapAction=""/>
@@ -1074,6 +1589,150 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="deleteConfigurationResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateManagementIPForMAC">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateManagementIPForMACRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateManagementIPForMACResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNetworks">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNetworksRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNetworksResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getNetworkByID">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getNetworkByIDRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getNetworkByIDResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="createNetwork">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="createNetworkRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="createNetworkResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateNetwork">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateNetworkRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateNetworkResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteNetwork">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteNetworkRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteNetworkResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSubnetsForNetwork">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getSubnetsForNetworkRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getSubnetsForNetworkResponse">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="addSubnetToNetwork">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addSubnetToNetworkRequest">
+
+            <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="addSubnetToNetworkResponse">
 
             <wsdlsoap:body use="encoded" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:network"/>
 

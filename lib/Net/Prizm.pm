@@ -2,9 +2,9 @@ package Net::Prizm;
 
 use strict;
 use vars qw($DEBUG $VERSION @uris %services $AUTOLOAD %schemas);
-use SOAP::Lite;
+use SOAP::Lite 0.71;
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 $DEBUG = 0;
 
@@ -41,7 +41,7 @@ if (ref($err_or_som)){
 =head1 DESCRIPTION
 
 Net::Prizm is a module implementing a Perl interface to Motorola's Canopy
-Prizm SOAP interface.  It is compatible with version 2.1 of that software
+Prizm SOAP interface.  It is compatible with version 3.0r1 of that software
 and requires the WSDL from Motorola.
 
 Net::Prizm enables you to simply access the SOAP interface of your Prizm
